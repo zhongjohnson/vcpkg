@@ -11,7 +11,6 @@ vcpkg_from_github(
         fix-include-path.patch
         fix-libusb.patch
         with_server.patch
-        fix-peer-connect.patch
 )
 
 if (NOT VCPKG_TARGET_IS_WINDOWS)
