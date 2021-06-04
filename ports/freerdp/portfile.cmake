@@ -10,6 +10,8 @@ vcpkg_from_github(
         openssl_threads.patch
         fix-include-path.patch
         fix-libusb.patch
+        with_server.patch
+        fix-peer-connect.patch
 )
 
 if (NOT VCPKG_TARGET_IS_WINDOWS)
@@ -31,6 +33,7 @@ file(WRITE "${SOURCE_PATH}/.source_version" "${SOURCE_VERSION}-vcpkg")
 file(REMOVE ${SOURCE_PATH}/cmake/FindOpenSSL.cmake) # Remove outdated Module
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
+    FEATURES
     urbdrc CHANNEL_URBDRC
 )
 
@@ -88,6 +91,8 @@ endforeach()
 vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake/FreeRDP-Client2_temp/FreeRDP-Client2 TARGET_PATH share/FreeRDP-Client)
 vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake/FreeRDP2_temp/FreeRDP2 TARGET_PATH share/FreeRDP)
 vcpkg_fixup_cmake_targets(CONFIG_PATH lib/cmake/WinPR2_temp/WinPR2 TARGET_PATH share/WinPR)
+
+vcpkg_fixup_pkgconfig(SKIP_CHECK)
 
 vcpkg_replace_string(${CURRENT_PACKAGES_DIR}/share/WinPR/WinPRTargets-debug.cmake
     "debug/lib/winpr2${VCPKG_TARGET_SHARED_LIBRARY_SUFFIX}"
